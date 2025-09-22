@@ -1,0 +1,133 @@
+/* Estilo geral */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(90deg,#49107b, #2c064e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container do form */
+.formContainer {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    width: fit-content;
+}
+
+/* Título do form */
+.tituloForm {
+    margin-bottom: 3rem;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Container do campo e label */
+.inputContainer {
+    margin-bottom: 3rem;
+    text-align: left;
+    width: 400px;
+}
+
+.inputContainer label {
+    font-size: 14px;
+    color: #333;
+}
+
+.inputContainer input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Botão enviar */
+.btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: linear-gradient(90deg, #5a1696, #3b0b65);
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #49107b, #2c064e);
+}
+
+/* Link */
+a {
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #49107b;
+}
+
+/* Form de cadastro */
+#cadastroPage {
+    margin: 3rem 0;
+}
+
+/* Grupo de checkboxes */
+.checkboxGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkboxGroup label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    background-color: #f5f5f5;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.checkboxGroup label:hover {
+    background-color: #e0e0e0;
+}
+
+.checkboxGroup input[type="checkbox"] {
+    accent-color: #49107b;
+    cursor: pointer;
+}
+
+/* Textarea */
+.inputContainer textarea {
+    width: 100%;
+    padding: 10px;
+    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Título para home e listagem */
+.tituloGenerico {
+    color: #fff;
+}

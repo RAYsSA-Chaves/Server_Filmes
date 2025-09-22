@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+    <!-- Conteúdo principal -->
+    <main class="formContainer" id="cadastroPage">
+        <h1 class="tituloForm">Cadastre um filme!</h1>
+        <!-- Formulário -->
+        <form action="/send_cadastro">
+            <!-- Campo nome do filme -->
+            <section class="inputContainer">
+                <label for="nome">Nome do Filme</label>
+                <input type="text" id="nome" name="nome" placeholder="Nome do filme" required/>
+            </section>
+
+            <!-- Campo atores -->
+            <section class="inputContainer">
+                <label for="atores">Atores</label>
+                <input type="text" id="atores" name="atores" placeholder="Atores principais" required/>
+            </section>
+
+            <!-- Campo diretor -->
+            <section class="inputContainer">
+                <label for="diretor">Diretor</label>
+                <input type="text" id="diretor" name="diretor" placeholder="Diretor do filme" required/>
+            </section>
+
+            <!-- Campo ano -->
+            <section class="inputContainer">
+                <label for="ano">Ano</label>
+                <input type="number" id="ano" name="ano" placeholder="Ano de lançamento" required/>
+            </section>
+
+            <!-- Campo gêneros -->
+            <section class="inputContainer">
+                <label>Gêneros</label>
+                <div class="checkboxGroup">
+                    <label><input type="checkbox" name="generos" value="acao"/>Ação</label>
+                    <label><input type="checkbox" name="generos" value="aventura"/>Aventura</label>
+                    <label><input type="checkbox" name="generos" value="comedia"/>Comédia</label>
+                    <label><input type="checkbox" name="generos" value="drama"/>Drama</label>
+                    <label><input type="checkbox" name="generos" value="terror"/>Terror</label>
+                    <label><input type="checkbox" name="generos" value="romance"/>Romance</label>
+                    <label><input type="checkbox" name="generos" value="documentario"/>Documentário</label>
+                </div>
+            </section>
+
+            <!-- Campo produtora -->
+            <section class="inputContainer">
+                <label for="produtora">Produtora</label>
+                <input type="text" id="produtora" name="produtora" placeholder="Produtora do filme" required/>
+            </section>
+
+            <!-- Campo sinopse -->
+            <section class="inputContainer">
+                <label for="sinopse">Sinopse</label>
+                <textarea id="sinopse" name="sinopse" rows="5" placeholder="Digite a sinopse do filme" required></textarea>
+            </section>
+
+            <!-- Campo capa -->
+            <section class="inputContainer">
+                <label for="capa">Ano</label>
+                <input type="url" id="capa" name="capa" placeholder="Capa do filme" required/>
+            </section>
+
+            <!-- Botão cadastrar -->
+            <button type="submit" class="btn">Cadastrar</button>
+        </form>
+    </main>
+</body>
+</html>
