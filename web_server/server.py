@@ -18,6 +18,7 @@ server.serve_forever()'''
 import os
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
+import json 
 
 # classe para personalizar a resposta do servidor
 class MyHandle(SimpleHTTPRequestHandler):
@@ -153,34 +154,64 @@ class MyHandle(SimpleHTTPRequestHandler):
             form_data = parse_qs(body)
 
             # pega o que foi digitado nos inputs
-            filme = form_data.get('nome', "")
-            atores = form_data.get('atores', "")
-            diretor = form_data.get('diretor', "")
-            ano = int(form_data.get('ano', ""))
+            filme = form_data.get('nome', [""])[0]
+            atores = form_data.get('atores', [""])[0]
+            diretor = form_data.get('diretor', [""])[0]
+            ano = int(form_data.get('ano', ["0"])[0])
             generos = form_data.get('generos', []) # checkboxes
-            produtora = form_data.get('produtora', "")
-            sinopse = form_data.get('sinopse', '')
+            produtora = form_data.get('produtora', [""])[0]
+            sinopse = form_data.get('sinopse', [""])[0]
+            capa = form_data.get('capa', [""])[0]
 
-            # imprime dados passados nos inputs
-            print("Data Form:")
-            print("Filme: ", filme)        
-            print("Atores: ", atores)    
-            print("Diretor: ", diretor)        
-            print("Ano de lançamento: ", ano)    
-            print("Gêneros: ", generos)        
-            print("Produtora: ", produtora)    
-            print("Sinopse: ", sinopse)        
+            # criar dicionário para guardar o filme cadastrado
+            novo_filme = {
+                "nome": filme,
+                "atores": atores,
+                "diretor": diretor,
+                "ano": ano,
+                "generos": generos,
+                "produtora": produtora,
+                "sinopse": sinopse,
+                "capa": capa
+            }
+
+            # vrrificar se existe json dos filmes
+            arquivo = "filmes.json"
+
+            if os.path.exists(arquivo):
+                with open(arquivo,  "r", encoding="utf-8") as f:
+                    # tentar carregar o arquivo
+                    try:
+                       filmes = json.load(f)
+                    except:
+                        json.JSONDecodeError:
+                        filmes = []
+                # adicionar o novo filme
+                filmes.append(novo_filme)
+                # salvar de volta no JSON
+                with open(arquivo, "w", encoding="utf-8") as f:
+                    json.dumb(filmes, f, indent=4, ensure_ascii=false)
+                    # imprime dados passados nos inputs
+                    print("Data Form:")
+                    print("Filme: ", filme)        
+                    print("Atores: ", atores)    
+                    print("Diretor: ", diretor)        
+                    print("Ano de lançamento: ", ano)    
+                    print("Gêneros: ", generos)        
+                    print("Produtora: ", produtora)    
+                    print("Sinopse: ", sinopse)  
+                    print("URL da capa: ", capa)
             
-            # resposta HTTP
-            self.send_response(200)
-            # informa o tipo do conteúdo
-            self.send_header("Content-type", "text/html")
-            # finaliza o cabeçalho
-            self.end_headers()
-            # escreve o resultado da validação no arquivo
-            self.wfile.write(logou.encode("utf-8"))
+                    # resposta HTTP
+                    self.send_response(200)
+                    # informa o tipo do conteúdo
+                    self.send_header("Content-type", "text/html")
+                    # finaliza o cabeçalho
+                    self.end_headers()
+                    # escreve o resultado da validação no arquivo
+                    self.wfile.write("Filme cadastrado com sucesso!".encode("utf-8"))
 
-        # chama o método padrão da classe base   
+                    # chama o método padrão da classe base   
         else:
             super(MyHandle, self).do_POST()
             
@@ -192,4 +223,5 @@ def main():
     print("Server Running in http://localhost:8000")  # exibe mensagem informando que o servidor está rodando
     httpd.serve_forever()  # inicia o servidor e mantém rodando
     
+
 main()
