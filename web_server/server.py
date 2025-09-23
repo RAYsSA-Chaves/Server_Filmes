@@ -175,7 +175,7 @@ class MyHandle(SimpleHTTPRequestHandler):
                 "capa": capa
             }
 
-            # vrrificar se existe json dos filmes
+            # verificar se existe json dos filmes
             arquivo = "filmes.json"
 
             if os.path.exists(arquivo):
@@ -190,7 +190,7 @@ class MyHandle(SimpleHTTPRequestHandler):
                 filmes.append(novo_filme)
                 # salvar de volta no JSON
                 with open(arquivo, "w", encoding="utf-8") as f:
-                    json.dumb(filmes, f, indent=4, ensure_ascii=false)
+                    json.dumb(filmes, f, indent=4, ensure_ascii=False)
                     # imprime dados passados nos inputs
                     print("Data Form:")
                     print("Filme: ", filme)        
@@ -210,8 +210,12 @@ class MyHandle(SimpleHTTPRequestHandler):
                     self.end_headers()
                     # escreve o resultado da validação no arquivo
                     self.wfile.write("Filme cadastrado com sucesso!".encode("utf-8"))
-
-                    # chama o método padrão da classe base   
+        
+        # listagem de filmes           
+        elif self.path=='listar_filmes':
+            
+        
+        # chama o método padrão da classe base   
         else:
             super(MyHandle, self).do_POST()
             
@@ -225,3 +229,4 @@ def main():
     
 
 main()
+
