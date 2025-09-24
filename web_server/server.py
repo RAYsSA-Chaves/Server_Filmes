@@ -181,9 +181,8 @@ class MyHandle(SimpleHTTPRequestHandler):
                 with open(arquivo,  "r", encoding="utf-8") as lista:
                     # tentar carregar o arquivo
                     try:
-                       filmes = json.load(lista)
-                    except:
-                        json.JSONDecodeError:
+                        filmes = json.load(lista)
+                    except json.JSONDecodeError:
                         filmes = []
                         
                 # adicionar o novo filme
@@ -221,25 +220,41 @@ class MyHandle(SimpleHTTPRequestHandler):
                     # tenta carregar o arquivo 
                     try:
                         filmes = json.load(lista)
-                    except JSON.JSONDecodeError:
+                    except json.JSONDecodeError:
                         filmes = []
 
-               # gerar html para cada filme
-               filmes_html = ""
-               for filme in filmes:
-                   filmes_html += "<article class='containerFilme>"
-                   filmes_html += f"<img src='{filme[capa]} alt='Capa do filme'/>"
-                   filmes_html += "<div class='infosFilme'>"
-                   filmes_html += f"<h2>{filme[nome]}</h2>"
-                   filmes_html += f"<p>Atores: {filme[atores]}</p>"
-                   filmes_html += f"<p>Diretor: {filme[diretor]}</p>"
-                   filmes_html += f"<p>Ano: {filme[ano]}</p>"
-                   filmes_html += f"<p>Gêneros: {','.join(filme[generos])}</p>"
-                   filmes_html += f"<p>Produtora: {filme[produtora]}</p>"
-                   filmes_html += "</div>"
-                   filmes_html += "<p>Sinopse:</p>"
-                   filmes_html += f"<p>{filmes[sinopse]}</p>"
-                   filmes_html += "</div>"
+                # gerar html para cada filme
+                filmes_html = ""
+                for filme in filmes:
+                    filmes_html += "<article class='containerFilme>"
+                    filmes_html += f"<img src='{filme[capa]} alt='Capa do filme'/>"
+                    filmes_html += "<div class='infosFilme'>"
+                    filmes_html += f"<h2>{filme[nome]}</h2>"
+                    filmes_html += f"<p>Atores: {filme[atores]}</p>"
+                    filmes_html += f"<p>Diretor: {filme[diretor]}</p>"
+                    filmes_html += f"<p>Ano: {filme[ano]}</p>"
+                    filmes_html += f"<p>Gêneros: {','.join(filme[generos])}</p>"
+                    filmes_html += f"<p>Produtora: {filme[produtora]}</p>"
+                    filmes_html += "</div>"
+                    filmes_html += "<p>Sinopse:</p>"
+                    filmes_html += f"<p>{filmes[sinopse]}</p>"
+                    filmes_html += "</article>"
+
+                # ler o arquivo html
+                with open("lista_filmes.html", "r", encoding="utf-8") as template:
+                    html = template.read()
+
+                # subistituir a marca dos filmes pelo conteúdo
+                html = html.replace("<!-- Exibir filmes dinâmicamente aqui -->", filmes_html)
+
+                # resposta HTTP
+                self.send_response(200)
+                # informa o tipo do conteúdo
+                self.send_header("Content-type", "text/html")
+                # finaliza o cabeçalho
+                self.end_headers()
+                # escreve o resultado da validação no arquivo
+                self.wfile.write(html.encode("utf-8"))
         
         # chama o método padrão da classe base   
         else:
@@ -255,5 +270,3 @@ def main():
     
 
 main()
-
-
