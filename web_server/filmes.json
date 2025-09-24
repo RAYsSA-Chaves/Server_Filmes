@@ -1,0 +1,15 @@
+[
+    {
+        "nome": "Teste",
+        "atores": "Pessoas",
+        "diretor": "Pessoa",
+        "ano": 2025,
+        "generos": [
+            "aventura",
+            "drama"
+        ],
+        "produtora": "Alguma",
+        "sinopse": "Bla bla bla.",
+        "capa": "https://m.media-amazon.com/images/M/MV5BMjg2NmM0MTEtYWY2Yy00NmFlLTllNTMtMjVkZjEwMGVlNzdjXkEyXkFqcGc@._V1_.jpg"
+    }
+]

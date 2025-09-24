@@ -8,10 +8,14 @@
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(90deg,#49107b, #2c064e);
+    min-height: 100vh;
+}
+
+/* Home */
+.centralizado {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
 /* Container do form */
@@ -31,7 +35,7 @@ body {
     font-weight: bold;
 }
 
-/* Container do campo e label */
+/* Campo e label */
 .inputContainer {
     margin-bottom: 3rem;
     text-align: left;
@@ -130,4 +134,31 @@ a:hover {
 /* Título para home */
 .tituloGenerico {
     color: #fff;
+}
+
+/* Listagem de filmes */
+.conteudoLista {
+    margin: 2rem;
+    color: #fff;
+}
+
+.conteudoLista h1 {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.displayFilme {
+    display: flex;
+    gap: 20px;
+}
+
+.displayFilme img {
+    width: 300px;
+    height: auto;
+}
+
+.infosFilme {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }

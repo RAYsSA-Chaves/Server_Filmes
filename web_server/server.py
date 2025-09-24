@@ -1,20 +1,3 @@
-'''from http.server import SimpleHTTPRequestHandler, HTTPServer
-
-# definindo a porta
-port = 8000
-
-# definindo o gerenciador/manipulador de requisições
-handler = SimpleHTTPRequestHandler
-
-# criando a instancia do servidor
-server = HTTPServer(("localhost", port), handler)
-
-# imprimindo mensagem de ok
-print(f"Server Running in http://localhost:{port}")
-
-server.serve_forever()'''
-
-
 import os
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
@@ -91,22 +74,54 @@ class MyHandle(SimpleHTTPRequestHandler):
             except FileNotFoundError:
                 self.send_error(404, "File Not Found")
         
-        # tenta abrir a listagem
+        # tenta abrir a listagem que exibe os filmes cadastrados dinamicamente
         elif self.path == "/listagem":
-            try:
-                with open(os.path.join(os.getcwd(), "lista_filmes.html"), encoding="utf-8") as listagem:
-                    content = listagem.read() # lê o conteúdo do arquivo
-                # resposta HTTP
-                self.send_response(200) 
-                # informa o tipo do conteúdo
-                self.send_header("Content-type", "text/html")
-                # finaliza o cabeçalho
-                self.end_headers()
-                # lê e envia o arquivo
-                self.wfile.write(content.encode("utf-8"))
-            # se não encontrar o arquivo, retorna erro 404
-            except FileNotFoundError:
-                self.send_error(404, "File Not Found")
+            # verifica se JSON existe
+            arquivo = "filmes.json"
+            if os.path.exists(arquivo):
+                with open(arquivo, "r", encoding="utf-8") as listagem:
+                    # tenta carregar o arquivo 
+                    try:
+                        filmes = json.load(listagem)
+                    except json.JSONDecodeError:
+                        filmes = []
+            else:
+                filmes = []
+
+            # gerar html para cada filme
+            filmes_html = ""
+            for filme in filmes:
+                filmes_html += "<article class='containerFilme'>"
+                filmes_html += "<div class='displayFilme'>"
+                filmes_html += f"<img src='{filme['capa']}' alt='Capa do filme'/>"
+                filmes_html += "<div class='infosFilme'>"
+                filmes_html += f"<h2>{filme['nome']}</h2>"
+                filmes_html += f"<p>Atores: {filme['atores']}</p>"
+                filmes_html += f"<p>Diretor: {filme['diretor']}</p>"
+                filmes_html += f"<p>Ano: {filme['ano']}</p>"
+                filmes_html += f"<p>Gêneros: {', '.join(filme['generos'])}</p>"
+                filmes_html += f"<p>Produtora: {filme['produtora']}</p>"
+                filmes_html += "<p>Sinopse:</p>"
+                filmes_html += f"<p>{filme['sinopse']}</p>"
+                filmes_html += "</div>"
+                filmes_html += "</div>"
+                filmes_html += "</article>"
+
+            # ler o arquivo html
+            with open("lista_filmes.html", "r", encoding="utf-8") as template:
+                html = template.read()
+
+            # subistituir o comentário pelo conteúdo
+            html = html.replace("<!-- Exibir filmes dinâmicamente aqui -->", filmes_html)
+
+            # resposta HTTP
+            self.send_response(200)
+            # informa o tipo do conteúdo
+            self.send_header("Content-type", "text/html")
+            # finaliza o cabeçalho
+            self.end_headers()
+            # escreve o resultado no arquivo
+            self.wfile.write(html.encode("utf-8"))
         
         # para outras rotas, chama o método padrão da classe base        
         else:
@@ -193,6 +208,7 @@ class MyHandle(SimpleHTTPRequestHandler):
             # salvar de volta no JSON
             with open(arquivo, "w", encoding="utf-8") as lista:
                 json.dump(filmes, lista, indent=4, ensure_ascii=False)
+                
                 # imprime dados passados nos inputs
                 print("Data Form:")
                 print("Filme: ", nome)        
@@ -213,53 +229,6 @@ class MyHandle(SimpleHTTPRequestHandler):
                 # escreve o resultado da validação no arquivo
                 self.wfile.write("Filme cadastrado com sucesso!".encode("utf-8"))
         
-        # listagem de filmes           
-        elif self.path=='/lista_filmes':
-            # verifica se JSON existe
-            arquivo = "filmes.json"
-            if os.path.exists(arquivo):
-                with open(arquivo, "r", encoding="utf-8") as lista:
-                    # tenta carregar o arquivo 
-                    try:
-                        filmes = json.load(lista)
-                    except json.JSONDecodeError:
-                        filmes = []
-             else:
-                filmes = []
-
-                # gerar html para cada filme
-                filmes_html = ""
-                for filme in filmes:
-                    filmes_html += "<article class='containerFilme>"
-                    filmes_html += f"<img src='{filme['capa']} alt='Capa do filme'/>"
-                    filmes_html += "<div class='infosFilme'>"
-                    filmes_html += f"<h2>{filme['nome']}</h2>"
-                    filmes_html += f"<p>Atores: {filme['atores']}</p>"
-                    filmes_html += f"<p>Diretor: {filme['diretor']}</p>"
-                    filmes_html += f"<p>Ano: {filme['ano']}</p>"
-                    filmes_html += f"<p>Gêneros: {','.join(filme['generos'])}</p>"
-                    filmes_html += f"<p>Produtora: {filme['produtora']}</p>"
-                    filmes_html += "</div>"
-                    filmes_html += "<p>Sinopse:</p>"
-                    filmes_html += f"<p>{filmes['sinopse']}</p>"
-                    filmes_html += "</article>"
-
-                # ler o arquivo html
-                with open("lista_filmes.html", "r", encoding="utf-8") as template:
-                    html = template.read()
-
-                # subistituir a marca dos filmes pelo conteúdo
-                html = html.replace("<!-- Exibir filmes dinâmicamente aqui -->", filmes_html)
-
-                # resposta HTTP
-                self.send_response(200)
-                # informa o tipo do conteúdo
-                self.send_header("Content-type", "text/html")
-                # finaliza o cabeçalho
-                self.end_headers()
-                # escreve o resultado da validação no arquivo
-                self.wfile.write(html.encode("utf-8"))
-        
         # chama o método padrão da classe base   
         else:
             super(MyHandle, self).do_POST()
@@ -272,6 +241,5 @@ def main():
     print("Server Running in http://localhost:8000")  # exibe mensagem informando que o servidor está rodando
     httpd.serve_forever()  # inicia o servidor e mantém rodando
     
-
 
 main()
