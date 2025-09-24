@@ -41,7 +41,7 @@ class MyHandle(SimpleHTTPRequestHandler):
         except FileNotFoundError:
             # se não encontrar o arquivo, executa a listagem de diretório padrão
             pass
-        return super().list_directory(self, path)
+        return super().list_directory(path)
 
     # valida o login
     def account_user(self, login, senha):
@@ -190,7 +190,7 @@ class MyHandle(SimpleHTTPRequestHandler):
                 
                 # salvar de volta no JSON
                 with open(arquivo, "w", encoding="utf-8") as lista:
-                    json.dumb(filmes, lista, indent=4, ensure_ascii=False)
+                    json.dump(filmes, lista, indent=4, ensure_ascii=False)
                     # imprime dados passados nos inputs
                     print("Data Form:")
                     print("Filme: ", nome)        
@@ -214,7 +214,7 @@ class MyHandle(SimpleHTTPRequestHandler):
         # listagem de filmes           
         elif self.path=='/lista_filmes':
             # verifica se JSON existe
-            arquivo = filmes.json
+            arquivo = "filmes.json"
             if os.path.exists(arquivo):
                 with open(arquivo, "r", encoding="utf-8") as lista:
                     # tenta carregar o arquivo 
@@ -227,17 +227,17 @@ class MyHandle(SimpleHTTPRequestHandler):
                 filmes_html = ""
                 for filme in filmes:
                     filmes_html += "<article class='containerFilme>"
-                    filmes_html += f"<img src='{filme[capa]} alt='Capa do filme'/>"
+                    filmes_html += f"<img src='{filme['capa']} alt='Capa do filme'/>"
                     filmes_html += "<div class='infosFilme'>"
-                    filmes_html += f"<h2>{filme[nome]}</h2>"
-                    filmes_html += f"<p>Atores: {filme[atores]}</p>"
-                    filmes_html += f"<p>Diretor: {filme[diretor]}</p>"
-                    filmes_html += f"<p>Ano: {filme[ano]}</p>"
-                    filmes_html += f"<p>Gêneros: {','.join(filme[generos])}</p>"
-                    filmes_html += f"<p>Produtora: {filme[produtora]}</p>"
+                    filmes_html += f"<h2>{filme['nome']}</h2>"
+                    filmes_html += f"<p>Atores: {filme['atores']}</p>"
+                    filmes_html += f"<p>Diretor: {filme['diretor']}</p>"
+                    filmes_html += f"<p>Ano: {filme['ano']}</p>"
+                    filmes_html += f"<p>Gêneros: {','.join(filme['generos'])}</p>"
+                    filmes_html += f"<p>Produtora: {filme['produtora']}</p>"
                     filmes_html += "</div>"
                     filmes_html += "<p>Sinopse:</p>"
-                    filmes_html += f"<p>{filmes[sinopse]}</p>"
+                    filmes_html += f"<p>{filmes['sinopse']}</p>"
                     filmes_html += "</article>"
 
                 # ler o arquivo html
