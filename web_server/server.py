@@ -187,29 +187,31 @@ class MyHandle(SimpleHTTPRequestHandler):
                         
                 # adicionar o novo filme
                 filmes.append(novo_filme)
+            else:
+                filmes = [novo_filme]
                 
-                # salvar de volta no JSON
-                with open(arquivo, "w", encoding="utf-8") as lista:
-                    json.dump(filmes, lista, indent=4, ensure_ascii=False)
-                    # imprime dados passados nos inputs
-                    print("Data Form:")
-                    print("Filme: ", nome)        
-                    print("Atores: ", atores)    
-                    print("Diretor: ", diretor)        
-                    print("Ano de lançamento: ", ano)    
-                    print("Gêneros: ", generos)        
-                    print("Produtora: ", produtora)    
-                    print("Sinopse: ", sinopse)  
-                    print("URL da capa: ", capa)
+            # salvar de volta no JSON
+            with open(arquivo, "w", encoding="utf-8") as lista:
+                json.dump(filmes, lista, indent=4, ensure_ascii=False)
+                # imprime dados passados nos inputs
+                print("Data Form:")
+                print("Filme: ", nome)        
+                print("Atores: ", atores)    
+                print("Diretor: ", diretor)        
+                print("Ano de lançamento: ", ano)    
+                print("Gêneros: ", generos)        
+                print("Produtora: ", produtora)    
+                print("Sinopse: ", sinopse)  
+                print("URL da capa: ", capa)
             
-                    # resposta HTTP
-                    self.send_response(200)
-                    # informa o tipo do conteúdo
-                    self.send_header("Content-type", "text/html")
-                    # finaliza o cabeçalho
-                    self.end_headers()
-                    # escreve o resultado da validação no arquivo
-                    self.wfile.write("Filme cadastrado com sucesso!".encode("utf-8"))
+                # resposta HTTP
+                self.send_response(200)
+                # informa o tipo do conteúdo
+                self.send_header("Content-type", "text/html")
+                # finaliza o cabeçalho
+                self.end_headers()
+                # escreve o resultado da validação no arquivo
+                self.wfile.write("Filme cadastrado com sucesso!".encode("utf-8"))
         
         # listagem de filmes           
         elif self.path=='/lista_filmes':
@@ -222,6 +224,8 @@ class MyHandle(SimpleHTTPRequestHandler):
                         filmes = json.load(lista)
                     except json.JSONDecodeError:
                         filmes = []
+             else:
+                filmes = []
 
                 # gerar html para cada filme
                 filmes_html = ""
@@ -268,5 +272,6 @@ def main():
     print("Server Running in http://localhost:8000")  # exibe mensagem informando que o servidor está rodando
     httpd.serve_forever()  # inicia o servidor e mantém rodando
     
+
 
 main()
