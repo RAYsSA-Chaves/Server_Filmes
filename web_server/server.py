@@ -154,7 +154,7 @@ class MyHandle(SimpleHTTPRequestHandler):
             form_data = parse_qs(body)
 
             # pega o que foi digitado nos inputs
-            filme = form_data.get('nome', [""])[0]
+            nome = form_data.get('nome', [""])[0]
             atores = form_data.get('atores', [""])[0]
             diretor = form_data.get('diretor', [""])[0]
             ano = int(form_data.get('ano', ["0"])[0])
@@ -165,7 +165,7 @@ class MyHandle(SimpleHTTPRequestHandler):
 
             # criar dicionário para guardar o filme cadastrado
             novo_filme = {
-                "nome": filme,
+                "nome": nome,
                 "atores": atores,
                 "diretor": diretor,
                 "ano": ano,
@@ -175,25 +175,26 @@ class MyHandle(SimpleHTTPRequestHandler):
                 "capa": capa
             }
 
-            # verificar se existe json dos filmes
+            # verificar se existe JSON dos filmes
             arquivo = "filmes.json"
-
             if os.path.exists(arquivo):
-                with open(arquivo,  "r", encoding="utf-8") as f:
+                with open(arquivo,  "r", encoding="utf-8") as lista:
                     # tentar carregar o arquivo
                     try:
-                       filmes = json.load(f)
+                       filmes = json.load(lista)
                     except:
                         json.JSONDecodeError:
                         filmes = []
+                        
                 # adicionar o novo filme
                 filmes.append(novo_filme)
+                
                 # salvar de volta no JSON
-                with open(arquivo, "w", encoding="utf-8") as f:
-                    json.dumb(filmes, f, indent=4, ensure_ascii=False)
+                with open(arquivo, "w", encoding="utf-8") as lista:
+                    json.dumb(filmes, lista, indent=4, ensure_ascii=False)
                     # imprime dados passados nos inputs
                     print("Data Form:")
-                    print("Filme: ", filme)        
+                    print("Filme: ", nome)        
                     print("Atores: ", atores)    
                     print("Diretor: ", diretor)        
                     print("Ano de lançamento: ", ano)    
@@ -212,8 +213,33 @@ class MyHandle(SimpleHTTPRequestHandler):
                     self.wfile.write("Filme cadastrado com sucesso!".encode("utf-8"))
         
         # listagem de filmes           
-        elif self.path=='listar_filmes':
-            
+        elif self.path=='/lista_filmes':
+            # verifica se JSON existe
+            arquivo = filmes.json
+            if os.path.exists(arquivo):
+                with open(arquivo, "r", encoding="utf-8") as lista:
+                    # tenta carregar o arquivo 
+                    try:
+                        filmes = json.load(lista)
+                    except JSON.JSONDecodeError:
+                        filmes = []
+
+               # gerar html para cada filme
+               filmes_html = ""
+               for filme in filmes:
+                   filmes_html += "<article class='containerFilme>"
+                   filmes_html += f"<img src='{filme[capa]} alt='Capa do filme'/>"
+                   filmes_html += "<div class='infosFilme'>"
+                   filmes_html += f"<h2>{filme[nome]}</h2>"
+                   filmes_html += f"<p>Atores: {filme[atores]}</p>"
+                   filmes_html += f"<p>Diretor: {filme[diretor]}</p>"
+                   filmes_html += f"<p>Ano: {filme[ano]}</p>"
+                   filmes_html += f"<p>Gêneros: {','.join(filme[generos])}</p>"
+                   filmes_html += f"<p>Produtora: {filme[produtora]}</p>"
+                   filmes_html += "</div>"
+                   filmes_html += "<p>Sinopse:</p>"
+                   filmes_html += f"<p>{filmes[sinopse]}</p>"
+                   filmes_html += "</div>"
         
         # chama o método padrão da classe base   
         else:
@@ -229,4 +255,5 @@ def main():
     
 
 main()
+
 
