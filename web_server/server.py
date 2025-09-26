@@ -122,6 +122,46 @@ class MyHandle(SimpleHTTPRequestHandler):
             self.end_headers()
             # escreve o resultado no arquivo
             self.wfile.write(html.encode("utf-8"))
+
+        # tenta abrir o json dos filmes (Método Mari)
+        elif self.path == "/listagem2":
+            # verifica se JSON existe
+            arquivo = "filmes.json"
+            if os.path.exists(arquivo):
+                with open(arquivo, "r", encoding="utf-8") as listagem:
+                    # tenta carregar o arquivo 
+                    try:
+                        filmes = json.load(listagem)
+                    except json.JSONDecodeError:
+                        filmes = []
+            else:
+                filmes = []
+
+            # resposta HTTP
+            self.send_response(200)
+            # informa o tipo do conteúdo
+            self.send_header("Content-type", "application/json")
+            # finaliza o cabeçalho
+            self.end_headers()
+            # escreve o resultado no arquivo
+            self.wfile.write(json.dumps(filmes).encode("utf-8"))
+
+        # tenta abrir a listagem de filmes v2 (Método Mari)
+        elif self.path == "/listagem3":
+            try:
+                with open(os.path.join(os.getcwd(), "listagem2.html"), encoding="utf-8") as listagem:
+                    content = listagem.read() # lê o conteúdo do arquivo
+                # resposta HTTP
+                self.send_response(200) 
+                # informa o tipo do conteúdo
+                self.send_header("Content-type", "text/html")
+                # finaliza o cabeçalho
+                self.end_headers()
+                # lê e envia o arquivo
+                self.wfile.write(content.encode("utf-8"))
+            # se não encontrar o arquivo, retorna erro 404
+            except FileNotFoundError:
+                self.send_error(404, "File Not Found")
         
         # para outras rotas, chama o método padrão da classe base        
         else:

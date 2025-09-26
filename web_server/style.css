@@ -137,12 +137,16 @@ a:hover {
 }
 
 /* Listagem de filmes */
+.containerFilme {
+    margin-bottom: 3rem;
+}
+
 .conteudoLista {
     margin: 2rem;
     color: #fff;
 }
 
-.conteudoLista h1 {
+.conteudoLista h1, #lista h1 {
     margin-bottom: 3rem;
     text-align: center;
 }
@@ -155,10 +159,29 @@ a:hover {
 .displayFilme img {
     width: 300px;
     height: auto;
+    border-radius: 10px;
 }
 
 .infosFilme {
     display: flex;
     flex-direction: column;
     gap: 25px;
+}
+
+body #lista {
+    margin: 2rem;
+}
+
+.bg_white {
+    background: #fff !important;
+}
+
+.buttons button, .buttons img {
+    width: 30px;
+    height: auto;
+}
+
+.buttons button {
+    background-color: none;
+    outline: none;
 }

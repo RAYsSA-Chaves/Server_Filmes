@@ -11,5 +11,18 @@
         "produtora": "Alguma",
         "sinopse": "Bla bla bla.",
         "capa": "https://m.media-amazon.com/images/M/MV5BMjg2NmM0MTEtYWY2Yy00NmFlLTllNTMtMjVkZjEwMGVlNzdjXkEyXkFqcGc@._V1_.jpg"
+    },
+    {
+        "nome": "Amor de Redenção",
+        "atores": "Abigail Cowen, Tom Lewis",
+        "diretor": "D. J. Caruso",
+        "ano": 2022,
+        "generos": [
+            "drama",
+            "romance"
+        ],
+        "produtora": "Pure Flix Entertainment e a Mission Pictures Production",
+        "sinopse": "Uma história de amor e fé, baseada no romance homônimo de Francine Rivers, que conta a jornada de Angel, uma mulher ferida pela vida, e Michael, um homem que obedece a um chamado divino para amá-la incondicionalmente. ",
+        "capa": "https://ingresso-a.akamaihd.net/prd/img/movie/redeeming-love/33d74528-2c8d-4a43-ad0c-89e194d54e04.jpg"
     }
 ]
